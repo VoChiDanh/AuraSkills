@@ -1,0 +1,44 @@
+name: Build and Release AuraSkills Plugin
+
+on:
+  push:
+    branches: [ master ]
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    name: Build Plugin and Create Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 1. Checkout Code
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: 2. Setup Java Environment
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+          cache: 'gradle'
+
+      - name: 3. Cấp quyền thực thi cho Gradle Wrapper
+        run: chmod +x ./gradlew
+
+      - name: 4. Build Plugin bằng Gradle
+        run: ./gradlew build --no-daemon
+
+      - name: 5. Tạo GitHub Release và Upload JAR
+        uses: softprops/action-gh-release@v2
+        with:
+          # Đặt tên Release trùng với tên tag (ví dụ: Release v1.0.0)
+          name: Release ${{ github.ref_name }}
+          # Tự động tạo nội dung mô tả Release dựa trên các commit
+          generate_release_notes: true
+          # Đường dẫn đến file JAR sau khi build. Dùng dấu * để bao hàm mọi phiên bản x.x.xx
+          files: build/libs/AuraSkills-*.jar
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Token mặc định của GitHub Action, không cần tự tạo thêm

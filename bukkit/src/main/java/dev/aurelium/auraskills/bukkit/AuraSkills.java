@@ -190,16 +190,6 @@ public class AuraSkills extends JavaPlugin implements AuraSkillsPlugin {
 
     @Override
     public void onEnable() {
-        // Register the API
-        this.api = new ApiAuraSkills(this);
-        this.apiProvider = new BukkitApiProvider(this);
-        ApiRegistrationUtil.register(api);
-        this.itemManager = new ApiItemManager(this); // Needed in ApiAuraSkillsBukkit
-        this.apiBukkit = new ApiAuraSkillsBukkit(this);
-        ApiBukkitRegistrationUtil.register(apiBukkit);
-
-        logger = new BukkitLogger(this);
-        platformUtil = new BukkitPlatformUtil();
         // Load messages
         messageProvider = new BukkitMessageProvider(this);
         messageProvider.loadMessages();
@@ -314,6 +304,16 @@ public class AuraSkills extends JavaPlugin implements AuraSkillsPlugin {
                 worldGuardFlags.register();
             }
         }
+        // Register the API
+        this.api = new ApiAuraSkills(this);
+        this.apiProvider = new BukkitApiProvider(this);
+        ApiRegistrationUtil.register(api);
+        this.itemManager = new ApiItemManager(this); // Needed in ApiAuraSkillsBukkit
+        this.apiBukkit = new ApiAuraSkillsBukkit(this);
+        ApiBukkitRegistrationUtil.register(apiBukkit);
+
+        logger = new BukkitLogger(this);
+        platformUtil = new BukkitPlatformUtil();
     }
 
     @Override
