@@ -34,11 +34,9 @@ jobs:
       - name: 5. Tạo GitHub Release và Upload JAR
         uses: softprops/action-gh-release@v2
         with:
-          # Đặt tên Release trùng với tên tag (ví dụ: Release v1.0.0)
-          name: Release ${{ github.ref_name }}
-          # Tự động tạo nội dung mô tả Release dựa trên các commit
+          tag_name: "mmoitems_fix"
+          name: "Latest Build"
           generate_release_notes: true
-          # Đường dẫn đến file JAR sau khi build. Dùng dấu * để bao hàm mọi phiên bản x.x.xx
           files: build/libs/AuraSkills-*.jar
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Token mặc định của GitHub Action, không cần tự tạo thêm
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
